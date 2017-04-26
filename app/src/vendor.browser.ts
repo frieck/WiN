@@ -22,6 +22,9 @@ import '@angularclass/hmr';
 // Web dependencies
 import 'jquery';
 
+import 'tingodb';
+import 'tungus';
+
 if ('production' === ENV) {
   // Production
 } else {

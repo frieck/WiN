@@ -1,6 +1,8 @@
 import { ipcRenderer } from 'electron';
 import parseDuration from 'parse-duration';
-var  jetpack = require('fs-jetpack');
+var jetpack = require('fs-jetpack');
+var mongoose = require('mongoose');
+//var Schema = mongoose.Schema;
 
 export class Scheduler {
   private schedulerStatus: string;
@@ -13,6 +15,19 @@ export class Scheduler {
     this.loopTimeout = 1000;
     this.snoozeTime = 1 * 60000;
     this.schedulesData = this.schedulerReader(dir, schedulesDataFile)
+
+    let dataBaseFile = jetpack.cwd(dir) + '/' + 'data'
+    /*mongoose.connect('tingodb://'+dataBaseFile, function (err) {
+      // if we failed to connect, abort
+      if (err) throw err;
+
+      // we connected ok
+      this.checkDataTable();
+    });*/
+  }
+
+  private checkDataTable() {
+    console.log("DONE!");
   }
 
   private schedulerReader(dir, schedulesDataFile): any {

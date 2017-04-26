@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-
-import './service_helpers/ipc_methods';
+import { ipcRenderer } from 'electron';
+import { Scheduler } from './scheduler';
 
 export type InternalStateType = {
   [key: string]: any
@@ -9,11 +9,21 @@ export type InternalStateType = {
 @Injectable()
 export class AppState {
   _state: InternalStateType = {};
+  scheduler: Scheduler;
 
   constructor() {
 
-    
+    ipcRenderer.on('scheduler-tray-click', function (event, arg) {
 
+    });
+
+    ipcRenderer.on('scheduler-load', function (event, userDataDir, shedulesDataFile) {
+        console.log("scheduler-load");
+
+        this.scheduler = new Scheduler(userDataDir, shedulesDataFile);
+        ipcRenderer.send('schedules-loaded', this.scheduler.schedulesData);
+        this.scheduler.schedulerLoop();
+    });
   }
 
   // already return a clone of the current state
